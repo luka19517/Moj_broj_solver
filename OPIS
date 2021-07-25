@@ -100,16 +100,3 @@ Detaljniji opis koda :
 		Kraj programa.
 
 
-
--25.07.2021  3:07
-	Optimizovan kod glavnog algoritma
--26.07.2021 
-	Goals: 
-		- Da glavna funkcija ne stampa , vec vraca string (reseno)
-		- Obezbediti da ukoliko nema resenja program vraca najblizi izraz  
-		- Optimizacija ispisa : da izraz koji ispisujemo bude minimalan po broju operacija koje zahteva (ne znam da li mi treba , mozda dodam na kraju svega)
-
-		RESENO SVE + DODAO SAM LEP GUI 
-
-		TREBA JOS:
-		KONACNA VERZIJA GUIA + KACENJE NA GITHUB
