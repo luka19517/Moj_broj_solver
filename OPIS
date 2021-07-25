@@ -1,0 +1,115 @@
+										Moj_broj_resavac
+
+	Generise rezultujuci izraz za ciljni broj i brojeve koji su nam dati na raspolaganje
+
+
+E - predstavlja skup svih validnih izraza do kojih smo dosli kombinovanjem
+
+Q - red izraza koji jos uvek nisu iskorisceni u generisanju novih
+
+N - skup ulaznih brojeva
+
+V - ciljni broj
+
+Zelimo da od N  -> V (od ulaznih brojeva da dobijemo izraz koji ima vrednost V)
+
+
+GLAVNI ALGORITAM:
+	Imacemo jednu glavnu petlju koja kao uslov ima da Q nije prazan red i da E ne sadrzi izraz koji ima vrednost jednaku ciljnoj
+
+	Unutar petlje :
+		Uzimamo izraz q iz reda , i onda svaki izraz e iz E kombinujemo sa izrazom q. Svaki izraz koji dobijamo kombinovanjem e i f ukoliko se njegova vrednost ne poklapa sa vrednoscu ni jednog izraza iz E , ubacujemo taj novi izraz u red G i u skup E.
+
+	Ukoliko smo iz petlje izasli tako sto se pojavio izraz sa ciljnom vrednoscu onda ga stampamo u suportnom ne postoji resenje.
+
+STRUKTURA KOJU KORISTIMO:
+	Svaki izraz predstavljamo pomocu:
+		bitovi_vrednosti_izraza | flegovi_iskoriscenih_ulaznih_brojeva
+		NPR izraz u1+u2*u3 predstavljamo:
+			vrednost  | 000111
+
+		S obzirom da nam resenje predstavlja izraz sa odgovarajucom vrednoscu, i ne zanima nas skup promenljivih koje koristimo, poklapanje trazimo iskljucivo po bitovima koji predstavljaju vrednost odn ( result_bits >> input_nums.size())
+
+		Skup kljuceva izraza koje smo izracunali (E u pseudokodu)
+
+		MAPA KA LEVOM RODITELJU
+			s obzirom da ce nam za svaki izraz za stampanje trebati njegov levi roditelj , koristimo keyToLeftParent mapu koja slika izraz u njegovog levog roditelja
+
+		MAPA KA DESNOM RODITELJU
+			ANALOGNO
+
+		MAPA KA OPERATORU
+			zanima nas od koje operacije je sacinjen nas izraz tako da nam treba i keyToOperator mapa koja slika izraz u operator koji spaja njegovog levog i desnog roditelja
+
+
+Detaljniji opis koda :
+	U prvoj for petlji dodajemo u red sve ulazne brojeve, i u skup dodajemo to isto. 
+
+	Ulazimo u while (uslov je nepraznost reda)
+
+	curKey je izraz koji vadimo iz reda
+	curValue tj vrednost tog izraza je curKey >> input_nums.size()
+	curMask tj flegovi pojave ulaza curKey & (1<<len(input_nums)-1)
+
+	Prolazimo kroz sve validne izraze (E)
+	iniciramo indikator uspeha na 0
+
+	za svaki od njih 
+		mask ce biti e & (1<<len(input_nums.size())-1)
+		value ce biti e >> input_nums.size()
+
+		Sada zelimo da generisemo novi izraz 
+
+		ako nam je curMask & mask == 0
+			prolazimo kroz sve operatore
+			+, - , / 
+
+			za svaki od njih racunamo vrednost napravljenog izraza 
+				gde ce newValue = cur_value( + , - , /)value 
+				i postavimo opSign na karakter koji treba
+
+			S obzirom da radimo samo sa pozitivnim brojevima ako je newValue>=0
+				Racunamo novu masku koja ce ukljuciti obe promenljive 
+				newMask = (mask | cur_mask)
+				Tako smo upotpunili novi izraz 
+				newKey = (newValue << input_nums.size())+new_Mask
+
+				Ako se newValue ne pojavljuje u skupu vrednosti izraza u solvedKeys onda 
+
+					keyToLeftParent.update({newKey:e})
+					keyToRightPrent.update({newKey:curKey})
+					keyToOperator.update({newKey:opSign})
+
+					solvedKeys.add(newKey)
+					Dodajemo u red
+					red.put(new Key)
+
+					if newValue == targetValue
+						targetKey=newKey
+						printExpression (keyToLeftParent,keyToRightParent,keyToOperator, targetKey,result)
+					i postavimno indikator uspeha na 1
+		Zavrsen je proces konstrukcije novog izraza
+		Ako smo ispraznili red i indikator_uspeha je i dalje 0, tada nemamo resenje (Mozemo da u skupu svih izraza izracunamo onaj najblizi i stampamo njegovu stringovnu operaciju)
+
+	Kako ide stampanje izraza 
+		TargetKey je izraz koji predstavlja resenje
+		Ukoliko ga nema medju kljucevima keyToOperator , onda znaci da je konstanta i to ce biti baza rekurzije
+		U suprotnom stampamo Levi Desni, Operator , target key ce nam biti izraz levog operanda, i isto i za desni
+		a izmedju se stampa znak .
+
+		Kraj programa.
+
+
+
+-25.07.2021  3:07
+	Optimizovan kod glavnog algoritma
+-26.07.2021 
+	Goals: 
+		- Da glavna funkcija ne stampa , vec vraca string (reseno)
+		- Obezbediti da ukoliko nema resenja program vraca najblizi izraz  
+		- Optimizacija ispisa : da izraz koji ispisujemo bude minimalan po broju operacija koje zahteva (ne znam da li mi treba , mozda dodam na kraju svega)
+
+		RESENO SVE + DODAO SAM LEP GUI 
+
+		TREBA JOS:
+		KONACNA VERZIJA GUIA + KACENJE NA GITHUB
