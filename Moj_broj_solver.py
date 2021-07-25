@@ -110,14 +110,32 @@ class App(QMainWindow):
     @pyqtSlot()
     def on_click(self):
         input_numbers=[]
-        input_numbers.append(int(self.textBox1.text()))
-        input_numbers.append(int(self.textBox2.text()))
-        input_numbers.append(int(self.textBox3.text()))
-        input_numbers.append(int(self.textBox4.text()))
-        input_numbers.append(int(self.textBox5.text()))
-        input_numbers.append(int(self.textBox6.text()))
-        result  = int(self.resultTextBox.text())
-        string = solveAndPrint(input_numbers,result)
+        indikator_greske=0
+        if(self.textBox1.text().isnumeric()):
+            input_numbers.append(int(self.textBox1.text()))
+            indikator_greske+=1
+        if(self.textBox2.text().isnumeric()):
+            input_numbers.append(int(self.textBox2.text()))
+            indikator_greske+=1
+        if(self.textBox3.text().isnumeric()):    
+            input_numbers.append(int(self.textBox3.text()))
+            indikator_greske+=1
+        if(self.textBox4.text().isnumeric()):
+            input_numbers.append(int(self.textBox4.text()))
+            indikator_greske+=1
+        if(self.textBox5.text().isnumeric()):
+            input_numbers.append(int(self.textBox5.text()))
+            indikator_greske+=1
+        if(self.textBox6.text().isnumeric()):
+            input_numbers.append(int(self.textBox6.text()))
+            indikator_greske+=1
+        if(self.resultTextBox.text().isnumeric()):
+            result  = int(self.resultTextBox.text())
+            indikator_greske+=1
+        if(indikator_greske==7):
+            string = solveAndPrint(input_numbers,result)
+        else:
+            string = "neispravan unos! "
         self.resultStringBox.setText(string)
 
 
