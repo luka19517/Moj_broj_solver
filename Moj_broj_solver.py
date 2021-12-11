@@ -1,5 +1,6 @@
 #sdasdasda
 """
+ovo je moj komentar 
 E - set of all valid expressions
 Q - queue of expressions that have not been expanded yet
 N - set of input numbers
